@@ -23,14 +23,21 @@ class Map:
         self.handle_treasures(treasures)
 
     def __str__(self):
-        mountain_char = "/\\"
-        plain_char = ",,"
+        """
+        Represents all the plains, mountains, treasures and players present on an ASCII art version's of the map !
+        :return: The map visualization on ASCII art
+        """
+        mountain_char = "/\\,"
+        plain_char = ",,,"
 
         txt = ""
         for i in range(self.width):
-            txt += "\n"
+            txt += "\n\t"
             for j in range(self.height):
-                txt += plain_char if self.grid[(i, j)] == CellType.PLAIN else mountain_char
+                background = plain_char if self.grid[(i, j)] == CellType.PLAIN else mountain_char
+                foreground = f"[{str(self.treasures.get((i, j)))}]" if self.treasures.get((i, j)) else ''
+                txt += foreground or background
+            txt += "\n"
 
         return "The Madre de Dios Map !" + txt
 
@@ -61,5 +68,8 @@ class Map:
 
 
 if __name__ == "__main__":
-    m = Map(3, 4)
+    width, height = 3, 4
+    mountains = [(1, 1), (2, 2)]
+    treasures = [(0, 3, 2), (1, 3, 1)]
+    m = Map(width, height, mountains, treasures)
     print(m)
