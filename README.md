@@ -19,6 +19,7 @@
 
 	``` bash
 	pip install parameterized
+ 	pip install nose2
 	```
 
 ## :zap: Quick start
@@ -33,4 +34,6 @@
 
 	``` bash
 	python -m unittest discover
+ 	# or
+ 	nose2
 	```
