@@ -1,7 +1,7 @@
 # :world_map: Treasure Quest :mountain:
 
-## :zap: Quick start
-1. Set your Virtual Environment :
+## :electric_plug: Dependencies
+1. :desktop_computer: Set your Virtual Environment :
 
 	``` bash
 	# Download venv librairy
@@ -15,9 +15,22 @@
 	_For more information, go to [Python Virtual Environment Official Documentation](https://docs.python.org/3/library/venv.html)._
 
 
-1. Install the project dependencies
+1. :package: Install the project dependencies
 
 	``` bash
 	pip install parameterized
 	```
 
+## :zap: Quick start
+
+1. To start the project, simply run bellow commands:
+
+	``` bash
+	python back.py
+	```
+
+2. To run the tests, simply run bellow commands:
+
+	``` bash
+	python -m unittest discover
+	```
