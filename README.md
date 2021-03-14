@@ -18,6 +18,6 @@
 1. Install the project dependencies
 
 	``` bash
-	pip install -U pytest
+	pip install parameterized
 	```
 
