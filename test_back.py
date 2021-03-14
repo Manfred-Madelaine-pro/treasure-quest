@@ -1,10 +1,10 @@
 import unittest
 from parameterized import parameterized
 
-from back import Map
+from back import TreasureMap
 
 
-class MapTest(unittest.TestCase):
+class TreasureMapTest(unittest.TestCase):
     @parameterized.expand([
         ["No map", 0, 0, (0, 0)],
         ["Small map", 1, 1, (1, 1)],
@@ -13,15 +13,15 @@ class MapTest(unittest.TestCase):
         ["Impossible map", -1, -4, (0, 0)],
     ])
     def test_map_creation(self, name, width, height, expected):
-        quest_map = Map(width, height)
-        assert (quest_map.width, quest_map.height) == expected
+        treasure_map = TreasureMap(width, height)
+        assert (treasure_map.width, treasure_map.height) == expected
 
     @parameterized.expand([
         ["Normal map with no mountains", 3, 4, 0],
     ])
     def test_map_creation_with_only_plains(self, name, width, height, expected):
-        quest_map = Map(width, height)
-        assert quest_map.get_mountains_count() == expected
+        treasure_map = TreasureMap(width, height)
+        assert treasure_map.get_mountains_count() == expected
 
     @parameterized.expand([
         ["Normal map with 1 mountain", 3, 4, [(0, 0)], 1],
@@ -32,8 +32,8 @@ class MapTest(unittest.TestCase):
         ["Out of bound mountain in Negatives", 3, 4, [(-1, -1)], 0],
     ])
     def test_map_creation_with_plains_and_mountains(self, name, width, height, mountains, expected):
-        quest_map = Map(width, height, mountains)
-        assert quest_map.get_mountains_count() == expected
+        treasure_map = TreasureMap(width, height, mountains)
+        assert treasure_map.get_mountains_count() == expected
 
     @parameterized.expand([
         ["Normal map with 1 treasure", 3, 4, [(0, 0, 1)], 1],
@@ -48,16 +48,16 @@ class MapTest(unittest.TestCase):
         ["Out of bound treasure in Negatives", 3, 4, [(-1, -1, 1)], 0],
     ])
     def test_map_creation_with_treasures(self, name, width, height, treasures, expected):
-        quest_map = Map(width, height, treasures=treasures)
-        assert quest_map.get_treasures_count() == expected
+        treasure_map = TreasureMap(width, height, treasures=treasures)
+        assert treasure_map.get_treasures_count() == expected
 
     @parameterized.expand([
         ["Normal map with 1 mountain and 1 treasure", 3, 4, [(0, 0)], [(0, 1, 1)], 1],
         ["Ignore treasure when on same cell as mountain", 3, 4, [(0, 0)], [(0, 0, 1)], 0],
     ])
     def test_map_creation_with_treasures_and_mountains(self, name, width, height, mountains, treasures, expected):
-        quest_map = Map(width, height, mountains, treasures)
-        assert quest_map.get_treasures_count() == expected
+        treasure_map = TreasureMap(width, height, mountains, treasures)
+        assert treasure_map.get_treasures_count() == expected
 
 
 if __name__ == '__main__':
