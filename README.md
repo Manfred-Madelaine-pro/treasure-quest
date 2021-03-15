@@ -1,5 +1,7 @@
 # :world_map: Treasure Quest :mountain:
 
+Adventurers are searching for treasures :gem: in the new world :earth_africa: !  
+
 ## :tada: Examples
 
 ### :gem: Game of Life in action
