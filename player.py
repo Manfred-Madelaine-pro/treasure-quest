@@ -38,6 +38,8 @@ class Player:
         self.pos = pos
         self.direction = CHAR_TO_DIRECTION.get(direction, Direction.NORTH)
 
+        self.collected_treasures = 0
+
     def __str__(self):
         return f"{self.pos}, {self.direction.name}"
 
@@ -69,6 +71,9 @@ class Player:
         dir_index = DIRECTIONS_CLOCKWISE.index(self.direction)
         new_dir_index = (dir_index + relative_direction.value) % len(DIRECTIONS_CLOCKWISE)
         self.direction = DIRECTIONS_CLOCKWISE[new_dir_index]
+
+    def pickup_treasure(self):
+        self.collected_treasures += 1
 
 
 if __name__ == "__main__":
