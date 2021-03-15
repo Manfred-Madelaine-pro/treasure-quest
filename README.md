@@ -4,7 +4,7 @@ Adventurers are searching for treasures :gem: in the new world :earth_africa: !
 
 ## :tada: Examples
 
-### :gem: Game of Life in action
+### :gem: Adventurers looking for treasures in action
 ![Treasure Quest](img/treasure_quest.gif)
 
 ## :electric_plug: Dependencies
