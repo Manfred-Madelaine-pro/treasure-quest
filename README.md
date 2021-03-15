@@ -34,7 +34,7 @@
 
 		``` bash
 		$ py treasure_quest.py 
-		Input File: 
+		Input: 
 			C - 3 - 4
 			M - 1 - 0
 			M - 2 - 1
@@ -42,12 +42,12 @@
 			T - 1 - 3 - 3
 			A - Lara - 1 - 1 - S - AADADAGGA
 			
-		Result:
-				C - 3 - 4
-				M - 1 - 0
-				M - 2 - 1
-				T - 1 - 3 - 2
-        		A - Lara - 0 - 3 - S - 3
+		Output:
+			C - 3 - 4
+			M - 1 - 0
+			M - 2 - 1
+			T - 1 - 3 - 2
+			A - Lara - 0 - 3 - S - 3
 		```
 
 2. To run the tests, simply run bellow commands:
@@ -61,7 +61,7 @@
 3. To use the file argument, run: 
 
 	``` bash
-	python treasure_quest.py -f <path to my file>
+	python treasure_quest.py -f <path to the file>
 	```
  	
 	- Result: It will store the result in `treasure_quest_results.txt`

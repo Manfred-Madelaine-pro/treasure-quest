@@ -5,12 +5,12 @@ SEPARATOR = " - "
 
 
 def treasure_quest(input_file):
-    print("Input File:", input_file)
+    print("Input:", input_file)
     tq = integrate(input_file)
     tq.play()
 
     res = format_result(tq.get_data())
-    print("Result:")
+    print("Output:")
     print("".join(["\t" + l + "\n" for l in res.split("\n")]))
     print("Total turns:", tq.turns)
     return res
@@ -110,6 +110,8 @@ if __name__ == "__main__":
     M - 5 - 7
     T - 0 - 3 - 2
     T - 1 - 7 - 3
+    T - 6 - 0 - 3
+    T - 6 - 4 - 6
     T - 5 - 2 - 2
     T - 4 - 6 - 5
     T - 1 - 3 - 3
@@ -121,8 +123,12 @@ if __name__ == "__main__":
     """
 
     if input_f:
-        # read
-        treasure_quest(input_f)
-        # write
+        with open(input_f, "r") as file:
+            input_file_arg = file.read()
 
-    treasure_quest(input_file_3)
+        res = treasure_quest(input_file_arg)
+
+        with open("treasure_quest_results.txt", "w") as file:
+            file.write(res)
+    else:
+        treasure_quest(input_file_3)

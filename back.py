@@ -55,7 +55,7 @@ class TreasureMap:
                 txt += player or (foreground or background) + " "
             txt += "\n"
 
-        return "The Madre de Dios Map !" + txt
+        return "The Madre de Dios Treasure Quest !" + txt
 
     # ----- Initialization ---------
 
@@ -128,7 +128,7 @@ class TreasureMap:
         while self.turns > 0:
             self.next()
             print(self)
-            time.sleep(3)
+            time.sleep(2)
             clear()
 
             self.turns -= 1
