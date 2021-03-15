@@ -124,11 +124,12 @@ class TreasureMap:
     def play(self):
         import os, time
         clear = lambda: os.system('clear')
+        clear()
 
         while self.turns > 0:
             self.next()
             print(self)
-            time.sleep(2)
+            time.sleep(0.5)
             clear()
 
             self.turns -= 1

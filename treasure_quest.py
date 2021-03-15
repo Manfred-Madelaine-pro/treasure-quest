@@ -9,10 +9,11 @@ def treasure_quest(input_file):
     tq = integrate(input_file)
     tq.play()
 
+    print(tq)
     res = format_result(tq.get_data())
     print("Output:")
     print("".join(["\t" + l + "\n" for l in res.split("\n")]))
-    print("Total turns:", tq.turns)
+    print("Total turns:", tq.iteration)
     return res
 
 

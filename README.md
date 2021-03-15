@@ -1,5 +1,10 @@
 # :world_map: Treasure Quest :mountain:
 
+## :tada: Examples
+
+### :gem: Game of Life in action
+![Treasure Quest](img/treasure_quest.gif)
+
 ## :electric_plug: Dependencies
 1. :desktop_computer: Set your Virtual Environment :
 
@@ -24,7 +29,7 @@
 
 ## :zap: Quick start
 
-1. To start the project, simply run bellow commands:
+1. :rocket: To start the project, simply run bellow commands:
 
 	``` bash
 	python treasure_quest.py
@@ -50,7 +55,7 @@
 			A - Lara - 0 - 3 - S - 3
 		```
 
-2. To run the tests, simply run bellow commands:
+2. :robot: To run the tests, simply run bellow commands:
 
 	``` bash
 	python -m unittest discover
@@ -58,7 +63,7 @@
  	nose2
 	```
  
-3. To use the file argument, run: 
+3. :file_folder: To use the file argument, run: 
 
 	``` bash
 	python treasure_quest.py -f <path to the file>
