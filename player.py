@@ -2,10 +2,10 @@ from enum import Enum
 
 
 class Direction(Enum):
-    NORTH = (0, -1)
-    SOUTH = (0, 1)
-    EAST = (1, 0)
-    WEST = (-1, 0)
+    NORTH = (-1, 0)
+    SOUTH = (1, 0)
+    EAST = (0, 1)
+    WEST = (0, -1)
 
 
 CHAR_TO_DIRECTION = {
@@ -14,6 +14,13 @@ CHAR_TO_DIRECTION = {
     "E": Direction.EAST,
     "W": Direction.WEST,
     "O": Direction.WEST,
+}
+
+DIRECTION_TO_CHAR = {
+    Direction.NORTH: "N",
+    Direction.SOUTH: "S",
+    Direction.EAST: "E",
+    Direction.WEST: "O",
 }
 
 
@@ -29,7 +36,12 @@ CHAR_TO_RELATIVE_DIRECTION = {
     "D": RelativeDirection.RIGHT,
 }
 
-DIRECTIONS_CLOCKWISE = [Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST]
+DIRECTIONS_CLOCKWISE = [
+    Direction.NORTH,
+    Direction.EAST,
+    Direction.SOUTH,
+    Direction.WEST,
+]
 
 
 class Player:
@@ -69,7 +81,9 @@ class Player:
             return
 
         dir_index = DIRECTIONS_CLOCKWISE.index(self.direction)
-        new_dir_index = (dir_index + relative_direction.value) % len(DIRECTIONS_CLOCKWISE)
+        new_dir_index = (dir_index + relative_direction.value) % len(
+            DIRECTIONS_CLOCKWISE
+        )
         self.direction = DIRECTIONS_CLOCKWISE[new_dir_index]
 
     def pickup_treasure(self):

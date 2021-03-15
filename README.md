@@ -27,8 +27,28 @@
 1. To start the project, simply run bellow commands:
 
 	``` bash
-	python back.py
+	python treasure_quest.py
 	```
+ 	
+	- Result: 
+
+		``` bash
+		$ py treasure_quest.py 
+		Input File: 
+			C - 3 - 4
+			M - 1 - 0
+			M - 2 - 1
+			T - 0 - 3 - 2
+			T - 1 - 3 - 3
+			A - Lara - 1 - 1 - S - AADADAGGA
+			
+		Result:
+				C - 3 - 4
+				M - 1 - 0
+				M - 2 - 1
+				T - 1 - 3 - 2
+        		A - Lara - 0 - 3 - S - 3
+		```
 
 2. To run the tests, simply run bellow commands:
 
@@ -37,3 +57,11 @@
  	# or
  	nose2
 	```
+ 
+3. To use the file argument, run: 
+
+	``` bash
+	python treasure_quest.py -f <path to my file>
+	```
+ 	
+	- Result: It will store the result in `treasure_quest_results.txt`

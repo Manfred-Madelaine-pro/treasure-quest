@@ -62,8 +62,7 @@ class TreasureMapTest(unittest.TestCase):
     @parameterized.expand([
         ["Add one player", 3, 4, [("Lara", 1, 1, "S", "AA")], 1],
         ["Add two players", 3, 4, [("Lara", 1, 1, "S", "AA"), ("Indiana", 2, 1, "S", "AA")], 2],
-        ["Add two players on same cell", 3, 4, [("Lara", 1, 1, "S", "AA"), ("Indiana", 1, 1, "S", "AA")], 2],
-        ["Add two players on same cell", 3, 4, [("Lara", 1, 1, "S", "AA"), ("Indiana", 1, 1, "S", "AA")], 2],
+        ["Forbid two players on same cell", 3, 4, [("Lara", 1, 1, "S", "AA"), ("Indiana", 1, 1, "S", "AA")], 1],
         ["Out of bound player in Positives", 3, 4, [("Lara", 10, 10, "S", "AA")], 0],
         ["Out of bound player in Positive for one coordinate", 3, 4, [("Lara", 1, 10, "S", "AA")], 0],
         ["Out of bound player in Negatives", 3, 4, [("Lara", -1, -1, "S", "AA")], 0],
@@ -73,7 +72,7 @@ class TreasureMapTest(unittest.TestCase):
         assert treasure_map.get_players_count() == expected
 
     @parameterized.expand([
-        ["Player moves on the map", 3, 4,  [("Lara", 1, 1, "E", "A")], "(2, 1), EAST"],
+        ["Player moves on the map", 3, 4, [("Lara", 1, 1, "E", "A")], "(1, 2), EAST"],
         ["Player tries to fall off the map's edge from the EAST", 1, 1, [("Lara", 0, 0, "E", "A")], "(0, 0), EAST"],
         ["Player tries to fall off the map's edge from the SOUTH", 1, 1, [("Lara", 0, 0, "S", "A")], "(0, 0), SOUTH"],
         ["Player tries to fall off the map's edge from the WEST", 1, 1, [("Lara", 0, 0, "W", "A")], "(0, 0), WEST"],
@@ -92,8 +91,8 @@ class TreasureMapTest(unittest.TestCase):
         assert treasure_map.get_players_count() == expected
 
     @parameterized.expand([
-        ["Player is blocked by mountain on the EAST", 3, 4, [(1, 0)], [("Lara", 0, 0, "E", "A")], "(0, 0), EAST"],
-        ["Player is blocked by mountain on the SOUTH", 3, 4, [(0, 1)], [("Lara", 0, 0, "S", "A")], "(0, 0), SOUTH"],
+        ["Player is blocked by mountain on the EAST", 3, 4, [(0, 1)], [("Lara", 0, 0, "E", "A")], "(0, 0), EAST"],
+        ["Player is blocked by mountain on the SOUTH", 3, 4, [(1, 0)], [("Lara", 0, 0, "S", "A")], "(0, 0), SOUTH"],
         ["Player is blocked by mountain on the WEST", 3, 4, [(0, 0)], [("Lara", 1, 0, "W", "A")], "(1, 0), WEST"],
         ["Player is blocked by mountain on the NORTH", 3, 4, [(0, 0)], [("Lara", 0, 1, "N", "A")], "(0, 1), NORTH"],
     ])
@@ -103,10 +102,10 @@ class TreasureMapTest(unittest.TestCase):
         assert str(list(treasure_map.players.keys())[0]) == expected
 
     @parameterized.expand([
-        ["Player picks up a treasure", 3, 4, [(1, 0, 1)], [("Lara", 0, 0, "E", "A")], (1, 0)],
-        ["Player picks up two treasures on different cells", 3, 4, [(1, 0, 1), (2, 0, 1)], [("Lara", 0, 0, "E", "AA")], (2, 0)],
-        ["Player picks up two treasures on same cell", 3, 4, [(1, 0, 2)], [("Lara", 0, 0, "E", "AARRA")], (2, 0)],
-        ["Player picks up two treasures on same cell", 3, 4, [(1, 0, 5)], [("Lara", 0, 0, "E", "AARRA")], (2, 3)],
+        ["Player picks up a treasure", 3, 4, [(0, 1, 1)], [("Lara", 0, 0, "E", "A")], (1, 0)],
+        ["Player picks up two treasures on different cells", 3, 4, [(0, 1, 1), (0, 2, 1)], [("Lara", 0, 0, "E", "AA")], (2, 0)],
+        ["Player picks up two treasures on same cell", 3, 4, [(0, 1, 2)], [("Lara", 0, 0, "E", "AARRA")], (2, 0)],
+        ["Player picks up two treasures on same cell", 3, 4, [(0, 1, 5)], [("Lara", 0, 0, "E", "AARRA")], (2, 3)],
     ])
     def test_map_and_players_with_treasures(self, name, width, height, treasures, players, expected):
         treasure_map = TreasureMap(width, height, treasures=treasures, players=players)
@@ -121,5 +120,5 @@ class TreasureMapTest(unittest.TestCase):
         assert treasure_map.get_treasures_count() == remaining
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
