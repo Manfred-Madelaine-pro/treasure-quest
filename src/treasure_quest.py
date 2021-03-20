@@ -91,8 +91,9 @@ def random_map():
 
     max_treasures = 5
     directions = ["N", "S", "W", "E"]
-    adventurers_names = ["Lara", "James", "Tom", "Sora", "Arthur", "John", "Amande", "Amy", "Loue", "Mendel", "Zain"]
+    adventurers_names = ["Lara", "James", "Tom", "Sora", "Arthur", "John", "Amande", "Amy", "Loue", "Lupin", "Mendez", "Zain"]
 
+    picked_names = []
     mtn, tsr, adv = [], [], []
     for elem, amount in random_elements.items():
         for _ in range(amount):
@@ -104,14 +105,39 @@ def random_map():
                 tsr += [(x, y, treasures)]
             elif elem == "A":
                 name = rnd.choice(adventurers_names)
+                picked_names += [name]
+                u_name = name + int_to_roman(picked_names.count(name)) if name in picked_names else ''
                 direction = rnd.choice(directions)
                 path = ""
-                adv += [(name, x, y, direction, path)]
+                adv += [(u_name, x, y, direction, path)]
 
     tm = TreasureMap(width=w, height=h, mountains=mtn, treasures=tsr, adventurers=adv)
     tm.turns = 10
 
     return tm
+
+
+def int_to_roman(num):
+    val = [
+        1000, 900, 500, 400,
+        100, 90, 50, 40,
+        10, 9, 5, 4,
+        1
+    ]
+    syb = [
+        "M", "CM", "D", "CD",
+        "C", "XC", "L", "XL",
+        "X", "IX", "V", "IV",
+        "I"
+    ]
+    roman_num = ''
+    i = 0
+    while num > 0:
+        for _ in range(num // val[i]):
+            roman_num += syb[i]
+            num -= val[i]
+        i += 1
+    return roman_num
 
 
 def format_result(data):
