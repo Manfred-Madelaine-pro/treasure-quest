@@ -6,12 +6,16 @@ from src.back import TreasureMap
 SEPARATOR = " - "
 
 
-def treasure_quest(input_file=None):
-    if not input_file:
-        input_file = pick_config()
+def treasure_quest(input_file=None, random=False):
+    if not random:
+        if not input_file:
+            input_file = pick_config()
 
-    print("Input:", input_file)
-    tm = integrate(input_file)
+        print("Input:", input_file)
+        tm = integrate(input_file)
+    else:
+        tm = random_map()
+
     tm.play()
 
     print(tm)
@@ -72,7 +76,42 @@ def integrate(file):
         elif fields[0] == "A":
             plyr += ((fields[1], int(fields[2]), int(fields[3]), fields[4], fields[5]),)
 
-    return TreasureMap(width=w, height=h, mountains=mtn, treasures=tsr, players=plyr)
+    return TreasureMap(width=w, height=h, mountains=mtn, treasures=tsr, adventurers=plyr)
+
+
+def random_map():
+    import random as rnd
+
+    w, h = 10, 8
+    random_elements = {
+        "M": rnd.randint(0, max([w, h])),               # mountains
+        "T": rnd.randint(1, max([w, h])),               # treasures
+        "A": rnd.randint(min([2, w, h]), max([w, h]))   # adventurers
+    }
+
+    max_treasures = 5
+    directions = ["N", "S", "W", "E"]
+    adventurers_names = ["Lara", "James", "Tom", "Sora", "Arthur", "John", "Amande", "Amy", "Loue", "Mendel", "Zain"]
+
+    mtn, tsr, adv = [], [], []
+    for elem, amount in random_elements.items():
+        for _ in range(amount):
+            x, y = rnd.randint(0, w - 1), rnd.randint(0, h - 1)
+            if elem == "M":
+                mtn += [(x, y)]
+            elif elem == "T":
+                treasures = rnd.randint(0, max_treasures)
+                tsr += [(x, y, treasures)]
+            elif elem == "A":
+                name = rnd.choice(adventurers_names)
+                direction = rnd.choice(directions)
+                path = ""
+                adv += [(name, x, y, direction, path)]
+
+    tm = TreasureMap(width=w, height=h, mountains=mtn, treasures=tsr, adventurers=adv)
+    tm.turns = 10
+
+    return tm
 
 
 def format_result(data):
@@ -105,3 +144,7 @@ def format_result(data):
                 txt += "\n"
 
     return txt
+
+
+if __name__ == "__main__":
+    treasure_quest(random=True)

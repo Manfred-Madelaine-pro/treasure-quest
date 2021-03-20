@@ -1,25 +1,24 @@
-import getopt
-import sys
+import argparse
 
 import src.treasure_quest as tq
 
 
-def main(argv):
-    input_file = ''
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", "--file",
+                        help="define the input file")
+    parser.add_argument("-r", "--random", action="store_true",
+                        help="add randomness in the quest")
+    args = parser.parse_args()
 
-    try:
-        opts, args = getopt.getopt(argv, "f:", ["file="])
-    except getopt.GetoptError:
-        print('Error.\nTry : main.py [-f <inputfile>]')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ("-f", "--file"):
-            input_file = arg
-    return input_file
+    if args.file:
+        return args.file, False
+    elif args.random:
+        return None, True
 
 
 if __name__ == "__main__":
-    input_f = main(sys.argv[1:])
+    input_f, randomized = main()
 
     if input_f:
         with open(input_f, "r") as file:
@@ -30,4 +29,4 @@ if __name__ == "__main__":
         with open("results.txt", "w") as file:
             file.write(res)
     else:
-        tq.treasure_quest()
+        tq.treasure_quest(random=randomized)

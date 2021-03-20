@@ -60,61 +60,61 @@ class TreasureMapTest(unittest.TestCase):
         assert treasure_map.get_treasures_count() == expected
 
     @parameterized.expand([
-        ["Add one player", 3, 4, [("Lara", 1, 1, "S", "AA")], 1],
-        ["Add two players", 3, 4, [("Lara", 1, 1, "S", "AA"), ("Indiana", 2, 1, "S", "AA")], 2],
-        ["Forbid two players on same cell", 3, 4, [("Lara", 1, 1, "S", "AA"), ("Indiana", 1, 1, "S", "AA")], 1],
-        ["Out of bound player in Positives", 3, 4, [("Lara", 10, 10, "S", "AA")], 0],
-        ["Out of bound player in Positive for one coordinate", 3, 4, [("Lara", 1, 10, "S", "AA")], 0],
-        ["Out of bound player in Negatives", 3, 4, [("Lara", -1, -1, "S", "AA")], 0],
+        ["Add one adventurer", 3, 4, [("Lara", 1, 1, "S", "AA")], 1],
+        ["Add two adventurers", 3, 4, [("Lara", 1, 1, "S", "AA"), ("Indiana", 2, 1, "S", "AA")], 2],
+        ["Forbid two adventurers on same cell", 3, 4, [("Lara", 1, 1, "S", "AA"), ("Indiana", 1, 1, "S", "AA")], 1],
+        ["Out of bound adventurer in Positives", 3, 4, [("Lara", 10, 10, "S", "AA")], 0],
+        ["Out of bound adventurer in Positive for one coordinate", 3, 4, [("Lara", 1, 10, "S", "AA")], 0],
+        ["Out of bound adventurer in Negatives", 3, 4, [("Lara", -1, -1, "S", "AA")], 0],
     ])
-    def test_map_and_players(self, name, width, height, players, expected):
-        treasure_map = TreasureMap(width, height, players=players)
-        assert treasure_map.get_players_count() == expected
+    def test_map_and_adventurers(self, name, width, height, adventurers, expected):
+        treasure_map = TreasureMap(width, height, adventurers=adventurers)
+        assert treasure_map.get_adventurers_count() == expected
 
     @parameterized.expand([
-        ["Player moves on the map", 3, 4, [("Lara", 1, 1, "E", "A")], "(1, 2), EAST"],
-        ["Player tries to fall off the map's edge from the EAST", 1, 1, [("Lara", 0, 0, "E", "A")], "(0, 0), EAST"],
-        ["Player tries to fall off the map's edge from the SOUTH", 1, 1, [("Lara", 0, 0, "S", "A")], "(0, 0), SOUTH"],
-        ["Player tries to fall off the map's edge from the WEST", 1, 1, [("Lara", 0, 0, "W", "A")], "(0, 0), WEST"],
-        ["Player tries to fall off the map's edge from the NORTH", 1, 1, [("Lara", 0, 0, "N", "A")], "(0, 0), NORTH"],
+        ["adventurer moves on the map", 3, 4, [("Lara", 1, 1, "E", "A")], "(1, 2), EAST"],
+        ["adventurer tries to fall off the map's edge from the EAST", 1, 1, [("Lara", 0, 0, "E", "A")], "(0, 0), EAST"],
+        ["adventurer tries to fall off the map's edge from the SOUTH", 1, 1, [("Lara", 0, 0, "S", "A")], "(0, 0), SOUTH"],
+        ["adventurer tries to fall off the map's edge from the WEST", 1, 1, [("Lara", 0, 0, "W", "A")], "(0, 0), WEST"],
+        ["adventurer tries to fall off the map's edge from the NORTH", 1, 1, [("Lara", 0, 0, "N", "A")], "(0, 0), NORTH"],
     ])
-    def test_map_and_player_movements(self, name, width, height, players, expected):
-        treasure_map = TreasureMap(width, height, players=players)
+    def test_map_and_adventurer_movements(self, name, width, height, adventurers, expected):
+        treasure_map = TreasureMap(width, height, adventurers=adventurers)
         treasure_map.next()
-        assert str(list(treasure_map.players.keys())[0]) == expected
+        assert str(list(treasure_map.adventurers.keys())[0]) == expected
 
     @parameterized.expand([
-        ["Add one player on mountain", 3, 4, [(0, 0)], [("Lara", 0, 0, "E", "AA")], 0],
+        ["Add one adventurer on mountain", 3, 4, [(0, 0)], [("Lara", 0, 0, "E", "AA")], 0],
     ])
-    def test_map_and_player_with_mountains(self, name, width, height, mountains, players, expected):
-        treasure_map = TreasureMap(width, height, mountains, players=players)
-        assert treasure_map.get_players_count() == expected
+    def test_map_and_adventurer_with_mountains(self, name, width, height, mountains, adventurers, expected):
+        treasure_map = TreasureMap(width, height, mountains, adventurers=adventurers)
+        assert treasure_map.get_adventurers_count() == expected
 
     @parameterized.expand([
-        ["Player is blocked by mountain on the EAST", 3, 4, [(0, 1)], [("Lara", 0, 0, "E", "A")], "(0, 0), EAST"],
-        ["Player is blocked by mountain on the SOUTH", 3, 4, [(1, 0)], [("Lara", 0, 0, "S", "A")], "(0, 0), SOUTH"],
-        ["Player is blocked by mountain on the WEST", 3, 4, [(0, 0)], [("Lara", 1, 0, "W", "A")], "(1, 0), WEST"],
-        ["Player is blocked by mountain on the NORTH", 3, 4, [(0, 0)], [("Lara", 0, 1, "N", "A")], "(0, 1), NORTH"],
+        ["adventurer is blocked by mountain on the EAST", 3, 4, [(0, 1)], [("Lara", 0, 0, "E", "A")], "(0, 0), EAST"],
+        ["adventurer is blocked by mountain on the SOUTH", 3, 4, [(1, 0)], [("Lara", 0, 0, "S", "A")], "(0, 0), SOUTH"],
+        ["adventurer is blocked by mountain on the WEST", 3, 4, [(0, 0)], [("Lara", 1, 0, "W", "A")], "(1, 0), WEST"],
+        ["adventurer is blocked by mountain on the NORTH", 3, 4, [(0, 0)], [("Lara", 0, 1, "N", "A")], "(0, 1), NORTH"],
     ])
-    def test_map_and_player_movements_with_mountains(self, name, width, height, mountains, players, expected):
-        treasure_map = TreasureMap(width, height, mountains, players=players)
+    def test_map_and_adventurer_movements_with_mountains(self, name, width, height, mountains, adventurers, expected):
+        treasure_map = TreasureMap(width, height, mountains, adventurers=adventurers)
         treasure_map.next()
-        assert str(list(treasure_map.players.keys())[0]) == expected
+        assert str(list(treasure_map.adventurers.keys())[0]) == expected
 
     @parameterized.expand([
-        ["Player picks up a treasure", 3, 4, [(0, 1, 1)], [("Lara", 0, 0, "E", "A")], (1, 0)],
-        ["Player picks up two treasures on different cells", 3, 4, [(0, 1, 1), (0, 2, 1)], [("Lara", 0, 0, "E", "AA")], (2, 0)],
-        ["Player picks up two treasures on same cell", 3, 4, [(0, 1, 2)], [("Lara", 0, 0, "E", "AARRA")], (2, 0)],
-        ["Player picks up two treasures on same cell", 3, 4, [(0, 1, 5)], [("Lara", 0, 0, "E", "AARRA")], (2, 3)],
+        ["adventurer picks up a treasure", 3, 4, [(0, 1, 1)], [("Lara", 0, 0, "E", "A")], (1, 0)],
+        ["adventurer picks up two treasures on different cells", 3, 4, [(0, 1, 1), (0, 2, 1)], [("Lara", 0, 0, "E", "AA")], (2, 0)],
+        ["adventurer picks up two treasures on same cell", 3, 4, [(0, 1, 2)], [("Lara", 0, 0, "E", "AARRA")], (2, 0)],
+        ["adventurer picks up two treasures on same cell", 3, 4, [(0, 1, 5)], [("Lara", 0, 0, "E", "AARRA")], (2, 3)],
     ])
-    def test_map_and_players_with_treasures(self, name, width, height, treasures, players, expected):
-        treasure_map = TreasureMap(width, height, treasures=treasures, players=players)
+    def test_map_and_adventurers_with_treasures(self, name, width, height, treasures, adventurers, expected):
+        treasure_map = TreasureMap(width, height, treasures=treasures, adventurers=adventurers)
         treasure_map.next()
         treasure_map.next()
         treasure_map.next()
         treasure_map.next()
         treasure_map.next()
-        p = list(treasure_map.players.keys())[0]
+        p = list(treasure_map.adventurers.keys())[0]
         picked_up, remaining = expected
         assert p.collected_treasures == picked_up
         assert treasure_map.get_treasures_count() == remaining

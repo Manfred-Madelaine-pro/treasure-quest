@@ -44,7 +44,7 @@ DIRECTIONS_CLOCKWISE = [
 ]
 
 
-class Player:
+class Adventurer:
     def __init__(self, name, pos, direction):
         self.name = name
         self.pos = pos
@@ -57,13 +57,13 @@ class Player:
 
     def move(self):
         """
-        Moves the player in the direction he is facing, i.e. (North, South, East, West).
+        Moves the adventurer in the direction he is facing, i.e. (North, South, East, West).
         """
         self.pos = self.get_next_pos()
 
     def get_next_pos(self):
         """
-        It simply sums the current position with the direction's value in order to define the player's next position.
+        It simply sums the current position with the direction's value in order to define the adventurer's next position.
 
         :return: The next position coordinates.
         """
@@ -71,7 +71,7 @@ class Player:
 
     def turn(self, relative_direction_char):
         """
-        Turns the player clockwise or anticlockwise (i.e. to the right or to the left).
+        Turns the adventurer clockwise or anticlockwise (i.e. to the right or to the left).
 
         :param relative_direction_char: either left or right ("L" or "R")
         :return: new direction (North, South, East, West).
@@ -92,7 +92,7 @@ class Player:
 
 if __name__ == "__main__":
     p = (0, 0)
-    lara = Player("Lara", p, "E")
+    lara = Adventurer("Lara", p, "E")
     print(lara)
 
     actions = "ADAAGAGA"

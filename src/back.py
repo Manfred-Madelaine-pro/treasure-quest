@@ -1,8 +1,9 @@
+import random as rnd
 import logging as log
-from collections import namedtuple
 from enum import Enum
+from collections import namedtuple
 
-from src.player import Player, CHAR_TO_RELATIVE_DIRECTION, DIRECTION_TO_CHAR
+from src.adventurer import Adventurer, CHAR_TO_RELATIVE_DIRECTION, DIRECTION_TO_CHAR
 
 Cell = namedtuple("Cell", ["i", "j"])
 
@@ -13,31 +14,31 @@ class CellType(Enum):
 
 
 class TreasureMap:
-    def __init__(self, width, height, mountains=[], treasures=[], players=[]):
+    def __init__(self, width, height, mountains=[], treasures=[], adventurers=[]):
         self.width = width if width >= 0 else 0
         self.height = height if height >= 0 else 0
 
         self.grid = {}
         self.mountains = mountains
         self.treasures = {}
-        self.players = {}
+        self.adventurers = {}
 
         self.iteration = 0
         self.turns = 0
 
         self.create_map(mountains)
         self.add_treasures(treasures)
-        self.add_players(players)
+        self.add_adventurers(adventurers)
 
     def __str__(self):
         """
-        Represents all the plains, mountains, treasures and players present on an ASCII art version's of the map !
+        Represents all the plains, mountains, treasures and adventurers present on an ASCII art version's of the map !
 
         :return: The map visualization on ASCII art
         """
         mountain_char = "/V\\"
         plain_char = ",,,"
-        player_char = "\\o/ "
+        adventurer_char = "\\o/ "
 
         txt = ""
         for i in range(self.width):
@@ -51,11 +52,20 @@ class TreasureMap:
                     if self.treasures.get((i, j))
                     else ""
                 )
-                player = player_char if self.is_occupied((i, j)) else ""
-                txt += player or (foreground or background) + " "
+                adventurer = adventurer_char if self.is_occupied((i, j)) else ""
+                txt += adventurer or (foreground or background) + " "
             txt += "\n"
+            
+        adventurers_board = self.get_adventurers_board()
 
-        return "The Madre de Dios Treasure Quest !" + txt
+        return "The Madre de Dios Treasure Quest !" + txt + adventurers_board
+
+    def get_adventurers_board(self):
+        txt = ''
+        for adventurer, movements in self.adventurers.items():
+            txt += str(adventurer) + ", moves: " + movements
+
+        return txt
 
     # ----- Initialization ---------
 
@@ -77,7 +87,7 @@ class TreasureMap:
             - key: treasures coordinates (example: (x, y))
             - Value: Amount of treasures available at this coordinate (amount > 0)
 
-        :param treasures: List of tuples representing players (example: [(1, 1, 3)])
+        :param treasures: List of tuples representing adventurers (example: [(1, 1, 3)])
         """
         for x, y, treasures_amount in treasures:
             if self.is_accessible(position=(x, y)):
@@ -92,20 +102,20 @@ class TreasureMap:
                 else:
                     self.treasures[(x, y)] = treasures_amount
 
-    def add_players(self, players):
+    def add_adventurers(self, adventurers):
         """
         Creates a dictionary of :
-            - key: The players
-            - Value: All player's movements (example: "AADAGA")
+            - key: The adventurers
+            - Value: All adventurer's movements (example: "AADAGA")
 
-        :param players: List of tuples representing players (example: [("Lara", 1, 1, "S", "AA")])
+        :param adventurers: List of tuples representing adventurers (example: [("Lara", 1, 1, "S", "AA")])
         """
-        for name, x, y, direction, movements in players:
+        for name, x, y, direction, movements in adventurers:
             if self.is_accessible(position=(x, y)) and not self.is_occupied(
                     position=(x, y)
             ):
-                player = Player(name, (x, y), direction)
-                self.players[player] = movements
+                adventurer = Adventurer(name, (x, y), direction)
+                self.adventurers[adventurer] = [c for c in movements]
                 self.turns = (
                     len(movements) if self.turns < len(movements) else self.turns
                 )
@@ -135,39 +145,40 @@ class TreasureMap:
             self.turns -= 1
 
     def next(self):
-        for player, movements in self.players.items():
+        for adventurer, movements in self.adventurers.items():
             if self.iteration >= len(movements):
-                continue
+                movements += get_random_move()
+                # continue
             next_movement = movements[self.iteration]
-            self.handle_player(player, next_movement)
+            self.handle_adventurer(adventurer, next_movement)
 
         self.iteration += 1
 
-    def handle_player(self, player, next_movement):
+    def handle_adventurer(self, adventurer, next_movement):
         if next_movement == "A":
-            self.handle_player_moves(player)
+            self.handle_adventurer_moves(adventurer)
         else:
-            player.turn(next_movement)
+            adventurer.turn(next_movement)
             if CHAR_TO_RELATIVE_DIRECTION.get(next_movement):
                 log.info(
-                    f"{player.name} turns to the {CHAR_TO_RELATIVE_DIRECTION.get(next_movement).name}"
+                    f"{adventurer.name} turns to the {CHAR_TO_RELATIVE_DIRECTION.get(next_movement).name}"
                 )
 
-    def handle_player_moves(self, player):
-        next_pos = player.get_next_pos()
+    def handle_adventurer_moves(self, adventurer):
+        next_pos = adventurer.get_next_pos()
 
         if self.is_accessible(next_pos) and not self.is_occupied(next_pos):
-            log.info(f"{player.name} moves to the {player.direction.name}.")
-            player.move()
+            log.info(f"{adventurer.name} moves to the {adventurer.direction.name}.")
+            adventurer.move()
 
             if self.treasures.get(next_pos):
                 self.treasures[next_pos] -= 1
-                player.collected_treasures += 1
+                adventurer.collected_treasures += 1
                 if self.treasures[next_pos] == 0:
                     self.treasures.pop(next_pos)
 
     def is_occupied(self, position):
-        return position in [player.pos for player in self.players.keys()]
+        return position in [adventurer.pos for adventurer in self.adventurers.keys()]
 
     # ----- Getters ---------
 
@@ -183,17 +194,21 @@ class TreasureMap:
     def get_treasures_count(self):
         return sum([treasures for treasures in self.treasures.values()])
 
-    def get_players_count(self):
-        return len(self.players)
+    def get_adventurers_count(self):
+        return len(self.adventurers)
 
     def get_data(self):
         return {
             "Map": (self.width, self.height),
             "Mountains": self.mountains,
             "Treasures": [(k, v) for k, v in self.treasures.items()],
-            "Players": [(player.name, player.pos, DIRECTION_TO_CHAR[player.direction], player.collected_treasures) for
-                        player, _ in self.players.items()]
+            "adventurers": [(adventurer.name, adventurer.pos, DIRECTION_TO_CHAR[adventurer.direction], adventurer.collected_treasures) for
+                        adventurer, _ in self.adventurers.items()]
         }
+
+
+def get_random_move():
+    return rnd.choice(["A", "A", "A", "L", "R"])
 
 
 if __name__ == "__main__":
@@ -201,5 +216,5 @@ if __name__ == "__main__":
     mtn = [(1, 1), (2, 2)]
     tsr = [(0, 3, 2), (1, 3, 1)]
     plyr = [("Lara", 1, 1, "S", "AA")]
-    tm = TreasureMap(width=w, height=h, mountains=mtn, treasures=tsr, players=plyr)
+    tm = TreasureMap(width=w, height=h, mountains=mtn, treasures=tsr, adventurers=plyr)
     print(tm)

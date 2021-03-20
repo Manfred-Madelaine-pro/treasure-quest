@@ -1,7 +1,7 @@
 import unittest
 from parameterized import parameterized
 
-from src.player import Player
+from src.adventurer import Adventurer
 
 
 class PlayerTest(unittest.TestCase):
@@ -14,7 +14,7 @@ class PlayerTest(unittest.TestCase):
         ["Incorrect Direction", (0, 0), "Q", "(0, 0), NORTH"],
     ])
     def test_player_creation(self, name, pos, direction, expected):
-        p = Player("Lara", pos, direction)
+        p = Adventurer("Lara", pos, direction)
         assert str(p) == expected
 
     @parameterized.expand([
@@ -24,7 +24,7 @@ class PlayerTest(unittest.TestCase):
         ["Simple step to the WEST", (0, 2), "W", "(0, 1), WEST"],
     ])
     def test_player_movements(self, name, pos, direction, expected):
-        p = Player("Lara", pos, direction)
+        p = Adventurer("Lara", pos, direction)
         p.move()
         assert str(p) == expected
 
@@ -42,7 +42,7 @@ class PlayerTest(unittest.TestCase):
     def test_player_orientation_changes(
             self, name, pos, direction, orientation_change, expected
     ):
-        p = Player("Lara", pos, direction)
+        p = Adventurer("Lara", pos, direction)
         p.turn(orientation_change)
         assert str(p) == expected
 
@@ -56,7 +56,7 @@ class PlayerTest(unittest.TestCase):
     def test_player_orientation_changes_and_movements(
             self, name, pos, direction, orientation_change, expected
     ):
-        p = Player("Lara", pos, direction)
+        p = Adventurer("Lara", pos, direction)
         p.move()
         p.turn(orientation_change)
         p.move()

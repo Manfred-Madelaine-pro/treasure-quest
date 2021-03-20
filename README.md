@@ -7,6 +7,12 @@ Adventurers are searching for treasures :gem: in the new world :earth_africa: !
 ### :gem: Adventurers looking for treasures in action
 ![Treasure Quest](img/treasure_quest.gif)
 
+Explanation:
+	- "/V\" : Represents mountains
+	- ",,," : Represents plains
+	- "[x]" : Represents treasures
+	- "\o/" : Represents adventurers
+
 ## :electric_plug: Dependencies
 1. :desktop_computer: Set your Virtual Environment :
 
