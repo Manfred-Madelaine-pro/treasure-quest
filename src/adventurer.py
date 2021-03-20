@@ -43,6 +43,22 @@ DIRECTIONS_CLOCKWISE = [
     Direction.WEST,
 ]
 
+TREASURE_FACE = [
+    ".(è_é).",
+    "d(-_-)b",
+    "d(~_~)b",
+    "+('_')+",
+    "$('_')$",
+    ".(o_o).",
+    ".(o_O)^",
+    ".(o_O)°",
+    "\(@_@)/",
+    "o(x_x)o",
+    "$(^_^)$"
+    "$(*_^)$",
+    "$(*_*)$",
+]
+
 
 class Adventurer:
     def __init__(self, name, pos, direction):
@@ -53,7 +69,9 @@ class Adventurer:
         self.collected_treasures = 0
 
     def __str__(self):
-        return f"{self.pos}, {self.direction.name}"
+        dir = ["^", ">", "v", "<"][DIRECTIONS_CLOCKWISE.index(self.direction)]
+        face = TREASURE_FACE[min([len(TREASURE_FACE), self.collected_treasures])]
+        return f"{face} {self.name:<8} '{dir}'{self.pos} - {self.collected_treasures:$>2}."
 
     def move(self):
         """
