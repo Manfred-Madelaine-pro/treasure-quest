@@ -100,7 +100,7 @@ def random_map():
             if elem == "M":
                 mtn += [(x, y)]
             elif elem == "T":
-                treasures = rnd.randint(0, max_treasures)
+                treasures = rnd.randint(1, max_treasures)
                 tsr += [(x, y, treasures)]
             elif elem == "A":
                 name = rnd.choice(adventurers_names)
@@ -135,7 +135,7 @@ def format_result(data):
                 y, x, nb = str(x), str(y), str(nb)
                 txt += SEPARATOR.join(["T", x, y, nb])
                 txt += "\n"
-        elif k == "Players":
+        elif k == "adventurers":
             for plyr in v:
                 name, pos, dir, nb = plyr
                 x, y = pos

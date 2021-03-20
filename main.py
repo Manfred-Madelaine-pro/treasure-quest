@@ -11,10 +11,7 @@ def main():
                         help="add randomness in the quest")
     args = parser.parse_args()
 
-    if args.file:
-        return args.file, False
-    elif args.random:
-        return None, True
+    return args.file, args.random
 
 
 if __name__ == "__main__":
