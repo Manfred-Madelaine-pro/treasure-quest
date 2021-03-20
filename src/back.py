@@ -55,15 +55,15 @@ class TreasureMap:
                 adventurer = adventurer_char if self.is_occupied((i, j)) else ""
                 txt += adventurer or (foreground or background) + " "
             txt += "\n"
-            
-        adventurers_board = self.get_adventurers_board()
 
-        return "The Madre de Dios Treasure Quest !" + txt + adventurers_board
+        leader_board = self.get_leader_board()
 
-    def get_adventurers_board(self):
+        return "The Madre de Dios Treasure Quest !" + txt + leader_board
+
+    def get_leader_board(self):
         txt = ''
-        for adventurer, movements in self.adventurers.items():
-            txt += str(adventurer) + ", moves: " + movements
+        for adventurer in sorted(self.adventurers.keys(), key=lambda a: a.collected_treasures, reverse=True):
+            txt += str(adventurer) + "\n"
 
         return txt
 
@@ -202,8 +202,9 @@ class TreasureMap:
             "Map": (self.width, self.height),
             "Mountains": self.mountains,
             "Treasures": [(k, v) for k, v in self.treasures.items()],
-            "adventurers": [(adventurer.name, adventurer.pos, DIRECTION_TO_CHAR[adventurer.direction], adventurer.collected_treasures) for
-                        adventurer, _ in self.adventurers.items()]
+            "adventurers": [(adventurer.name, adventurer.pos, DIRECTION_TO_CHAR[adventurer.direction],
+                             adventurer.collected_treasures) for
+                            adventurer, _ in self.adventurers.items()]
         }
 
 
