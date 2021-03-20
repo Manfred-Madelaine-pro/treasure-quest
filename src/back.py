@@ -61,7 +61,7 @@ class TreasureMap:
         return "The Madre de Dios Treasure Quest !" + txt + leader_board
 
     def get_leader_board(self):
-        txt = ''
+        txt = f'\nAvailable treasures: {self.get_treasures_count()}\n'
         for adventurer in sorted(self.adventurers.keys(), key=lambda a: a.collected_treasures, reverse=True):
             txt += str(adventurer) + "\n"
 
@@ -136,7 +136,7 @@ class TreasureMap:
         clear = lambda: os.system('clear')
         clear()
 
-        while self.turns > 0:
+        while self.turns > 0 and self.treasures:
             self.next()
             print(self)
             time.sleep(0.5)
