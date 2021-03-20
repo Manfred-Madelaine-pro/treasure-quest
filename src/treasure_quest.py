@@ -11,26 +11,18 @@ def treasure_quest(input_file=None):
         input_file = pick_config()
 
     print("Input:", input_file)
-    tq = integrate(input_file)
-    tq.play()
+    tm = integrate(input_file)
+    tm.play()
 
-    print(tq)
-    res = format_result(tq.get_data())
+    print(tm)
+    res = format_result(tm.get_data())
     print("Output:")
     print("".join(["\t" + l + "\n" for l in res.split("\n")]))
-    print("Total turns:", tq.iteration)
+    print("Total turns:", tm.iteration)
     return res
 
 
 def pick_config():
-    input_file = """
-    C - 3 - 4 
-    M - 0 - 2 
-    M - 2 - 2 
-    T - 0 - 3 - 2 
-    T - 1 - 3 - 1 
-    A - Indiana - 1 - 1 - S - AADADA 
-    """
     input_file_2 = """
     C - 3 - 4
     M - 1 - 0
@@ -39,7 +31,7 @@ def pick_config():
     T - 1 - 3 - 3
     A - Lara - 1 - 1 - S - AADADAGGA
     """
-    input_file_3 = """
+    input_file = """
     C - 10 - 8
     M - 1 - 0
     M - 2 - 1
@@ -58,7 +50,7 @@ def pick_config():
     A - Tom - 5 - 7 - W - DAADADAGAGADAGAADAGGA
     A - Amande - 4 - 6 - W - AADAADADAGAGADAGAADAGGA
     """
-    return input_file_3
+    return input_file
 
 
 def integrate(file):

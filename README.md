@@ -34,13 +34,13 @@ Adventurers are searching for treasures :gem: in the new world :earth_africa: !
 1. :rocket: To start the project, simply run bellow commands:
 
 	``` bash
-	python treasure_quest.py
+	python main.py
 	```
  	
 	- Result: 
 
 		``` bash
-		$ py treasure_quest.py 
+		$ py main.py 
 		Input: 
 			C - 3 - 4
 			M - 1 - 0
@@ -68,7 +68,7 @@ Adventurers are searching for treasures :gem: in the new world :earth_africa: !
 3. :file_folder: To use the file argument, run: 
 
 	``` bash
-	python treasure_quest.py -f <path to the file>
+	python main.py -f <path to the file>
 	```
  	
-	- Result: It will store the result in `treasure_quest_results.txt`
+	- Result: It will store the result in `results.txt`
