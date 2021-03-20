@@ -2,7 +2,7 @@ import logging as log
 from collections import namedtuple
 from enum import Enum
 
-from player import Player, CHAR_TO_RELATIVE_DIRECTION, DIRECTION_TO_CHAR
+from src.player import Player, CHAR_TO_RELATIVE_DIRECTION, DIRECTION_TO_CHAR
 
 Cell = namedtuple("Cell", ["i", "j"])
 

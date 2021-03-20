@@ -1,10 +1,15 @@
-import sys, getopt
-from back import TreasureMap
+import getopt
+import sys
+
+from src.back import TreasureMap
 
 SEPARATOR = " - "
 
 
-def treasure_quest(input_file):
+def treasure_quest(input_file=None):
+    if not input_file:
+        input_file = pick_config()
+
     print("Input:", input_file)
     tq = integrate(input_file)
     tq.play()
@@ -15,6 +20,45 @@ def treasure_quest(input_file):
     print("".join(["\t" + l + "\n" for l in res.split("\n")]))
     print("Total turns:", tq.iteration)
     return res
+
+
+def pick_config():
+    input_file = """
+    C - 3 - 4 
+    M - 0 - 2 
+    M - 2 - 2 
+    T - 0 - 3 - 2 
+    T - 1 - 3 - 1 
+    A - Indiana - 1 - 1 - S - AADADA 
+    """
+    input_file_2 = """
+    C - 3 - 4
+    M - 1 - 0
+    M - 2 - 1
+    T - 0 - 3 - 2
+    T - 1 - 3 - 3
+    A - Lara - 1 - 1 - S - AADADAGGA
+    """
+    input_file_3 = """
+    C - 10 - 8
+    M - 1 - 0
+    M - 2 - 1
+    M - 2 - 4
+    M - 5 - 7
+    T - 0 - 3 - 2
+    T - 1 - 7 - 3
+    T - 6 - 0 - 3
+    T - 6 - 4 - 6
+    T - 5 - 2 - 2
+    T - 4 - 6 - 5
+    T - 1 - 3 - 3
+    A - Lara - 1 - 1 - S - AADADAGGAGGAAGGAGAGA
+    A - Indiana - 2 - 1 - S - AADDAGADADAGGAAA
+    A - Yves - 5 - 3 - E - AADDAGADADAGGAAA
+    A - Tom - 5 - 7 - W - DAADADAGAGADAGAADAGGA
+    A - Amande - 4 - 6 - W - AADAADADAGAGADAGAADAGGA
+    """
+    return input_file_3
 
 
 def integrate(file):
@@ -69,67 +113,3 @@ def format_result(data):
                 txt += "\n"
 
     return txt
-
-
-def main(argv):
-    input_file = ''
-    try:
-        opts, args = getopt.getopt(argv, "f:", ["file="])
-    except getopt.GetoptError:
-        print('treasure_quest.py -i <inputfile> ')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ("-f", "--file"):
-            input_file = arg
-    return input_file
-
-
-if __name__ == "__main__":
-    input_f = main(sys.argv[1:])
-
-    input_file = """
-    C - 3 - 4 
-    M - 0 - 2 
-    M - 2 - 2 
-    T - 0 - 3 - 2 
-    T - 1 - 3 - 1 
-    A - Indiana - 1 - 1 - S - AADADA 
-    """
-    input_file_2 = """
-    C - 3 - 4
-    M - 1 - 0
-    M - 2 - 1
-    T - 0 - 3 - 2
-    T - 1 - 3 - 3
-    A - Lara - 1 - 1 - S - AADADAGGA
-    """
-    input_file_3 = """
-    C - 10 - 8
-    M - 1 - 0
-    M - 2 - 1
-    M - 2 - 4
-    M - 5 - 7
-    T - 0 - 3 - 2
-    T - 1 - 7 - 3
-    T - 6 - 0 - 3
-    T - 6 - 4 - 6
-    T - 5 - 2 - 2
-    T - 4 - 6 - 5
-    T - 1 - 3 - 3
-    A - Lara - 1 - 1 - S - AADADAGGAGGAAGGAGAGA
-    A - Indiana - 2 - 1 - S - AADDAGADADAGGAAA
-    A - Yves - 5 - 3 - E - AADDAGADADAGGAAA
-    A - Tom - 5 - 7 - W - DAADADAGAGADAGAADAGGA
-    A - Amande - 4 - 6 - W - AADAADADAGAGADAGAADAGGA
-    """
-
-    if input_f:
-        with open(input_f, "r") as file:
-            input_file_arg = file.read()
-
-        res = treasure_quest(input_file_arg)
-
-        with open("treasure_quest_results.txt", "w") as file:
-            file.write(res)
-    else:
-        treasure_quest(input_file_3)

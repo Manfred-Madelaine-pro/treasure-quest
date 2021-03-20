@@ -1,7 +1,7 @@
 import unittest
 from parameterized import parameterized
 
-from back import TreasureMap
+from src.back import TreasureMap
 
 
 class TreasureMapTest(unittest.TestCase):

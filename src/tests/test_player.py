@@ -1,7 +1,7 @@
 import unittest
 from parameterized import parameterized
 
-from player import Player
+from src.player import Player
 
 
 class PlayerTest(unittest.TestCase):
