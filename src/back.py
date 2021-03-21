@@ -30,6 +30,8 @@ class TreasureMap:
         self.add_treasures(treasures)
         self.add_adventurers(adventurers)
 
+        self.initial_state = None
+
     def __str__(self):
         """
         Represents all the plains, mountains, treasures and adventurers present on an ASCII art version's of the map !
@@ -61,9 +63,12 @@ class TreasureMap:
         return "The Madre de Dios Treasure Quest !" + txt + leader_board
 
     def get_leader_board(self):
-        txt = f'\nAvailable treasures: {self.get_treasures_count()}\n'
-        for adventurer in sorted(self.adventurers.keys(), key=lambda a: a.collected_treasures, reverse=True):
-            txt += str(adventurer) + "\n"
+        txt = f"\nTurn: {self.iteration:>3}"
+        txt += f'\t\t\t\t\tTreasures: {self.get_treasures_count():>3}\n\n'
+        txt += f'\t\t|\\/o\\/|   Leader Board   |\\/o\\/|\n'
+        txt += "_".join([".:*~*:."] * 8) + "\n"
+        for i, adventurer in zip(range(len(self.adventurers)), sorted(self.adventurers.keys(), key=lambda a: a.collected_treasures, reverse=True)):
+            txt += f"#{i+1}\t" + str(adventurer) + "\n"
 
         return txt
 
@@ -129,6 +134,10 @@ class TreasureMap:
         """
         return position in self.grid and self.grid[position] is CellType.PLAIN
 
+    def update_initial_state(self):
+        for adv in self.initial_state.adventurers.keys():
+            self.initial_state.adventurers[adv] = self.get_adventurer(adv.name).previous_moves
+
     # ----- Core ---------
 
     def play(self):
@@ -163,6 +172,7 @@ class TreasureMap:
                 log.info(
                     f"{adventurer.name} turns to the {CHAR_TO_RELATIVE_DIRECTION.get(next_movement).name}"
                 )
+        adventurer.previous_moves += [next_movement]
 
     def handle_adventurer_moves(self, adventurer):
         next_pos = adventurer.get_next_pos()
@@ -197,6 +207,11 @@ class TreasureMap:
     def get_adventurers_count(self):
         return len(self.adventurers)
 
+    def get_adventurer(self, name):
+        for adv in self.adventurers.keys():
+            if adv.name == name:
+                return adv
+
     def get_data(self):
         return {
             "Map": (self.width, self.height),
@@ -205,6 +220,17 @@ class TreasureMap:
             "adventurers": [(adventurer.name, adventurer.pos, DIRECTION_TO_CHAR[adventurer.direction],
                              adventurer.collected_treasures) for
                             adventurer, _ in self.adventurers.items()]
+        }
+
+    def get_initial_state(self):
+        self.update_initial_state()
+        return {
+            "Map": (self.width, self.height),
+            "Mountains": self.initial_state.mountains,
+            "Treasures": [(k, v) for k, v in self.initial_state.treasures.items()],
+            "adventurers": [(adventurer.name, (adventurer.pos[1], adventurer.pos[0]), DIRECTION_TO_CHAR[adventurer.direction],
+                             "".join(moves)) for
+                            adventurer, moves in self.initial_state.adventurers.items()]
         }
 
 

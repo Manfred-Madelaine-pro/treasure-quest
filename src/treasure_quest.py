@@ -6,7 +6,7 @@ from src.back import TreasureMap
 SEPARATOR = " - "
 
 
-def treasure_quest(input_file=None, random=False):
+def treasure_quest(input_file=None, random=False, save=False):
     if not random:
         if not input_file:
             input_file = pick_config()
@@ -19,22 +19,14 @@ def treasure_quest(input_file=None, random=False):
     tm.play()
 
     print(tm)
-    res = format_result(tm.get_data())
+    res = format_result(tm.get_initial_state() if save else tm.get_data())
+
     print("Output:")
     print("".join(["\t" + l + "\n" for l in res.split("\n")]))
-    print("Total turns:", tm.iteration)
     return res
 
 
 def pick_config():
-    input_file_2 = """
-    C - 3 - 4
-    M - 1 - 0
-    M - 2 - 1
-    T - 0 - 3 - 2
-    T - 1 - 3 - 3
-    A - Lara - 1 - 1 - S - AADADAGGA
-    """
     input_file = """
     C - 10 - 8
     M - 1 - 0
@@ -82,10 +74,10 @@ def integrate(file):
 def random_map():
     import random as rnd
 
-    w, h = 10, 8
+    w, h = 10, 12
     random_elements = {
         "M": rnd.randint(0, max([w, h])),               # mountains
-        "T": rnd.randint(1, max([w, h])),               # treasures
+        "T": rnd.randint(min([w, h]), max([w, h])*2),   # treasures
         "A": rnd.randint(min([2, w, h]), max([w, h]))   # adventurers
     }
 
@@ -105,14 +97,15 @@ def random_map():
                 tsr += [(x, y, treasures)]
             elif elem == "A":
                 name = rnd.choice(adventurers_names)
+                u_name = name + (" " + int_to_roman(picked_names.count(name)) if name in picked_names else '')
                 picked_names += [name]
-                u_name = name + int_to_roman(picked_names.count(name)) if name in picked_names else ''
                 direction = rnd.choice(directions)
                 path = ""
                 adv += [(u_name, x, y, direction, path)]
 
     tm = TreasureMap(width=w, height=h, mountains=mtn, treasures=tsr, adventurers=adv)
-    tm.turns = 10
+    tm.initial_state = TreasureMap(width=w, height=h, mountains=mtn, treasures=tsr, adventurers=adv)
+    tm.turns = 40
 
     return tm
 
