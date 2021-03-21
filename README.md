@@ -4,14 +4,15 @@ Adventurers are searching for treasures :gem: in the new world :earth_africa: !
 
 ## :tada: Examples
 
-### :gem: Adventurers looking for treasures in action
+### :gem: Adventurers looking for treasures
 ![Treasure Quest](img/treasure_quest.gif)
 
 Explanation:
-	- "/V\" : Represents mountains
-	- ",,," : Represents plains
-	- "[x]" : Represents treasures
-	- "\o/" : Represents adventurers
+
+- "/V\\" : Represents the mountains
+- ",,," : Represents the plains
+- "[x]" : Represents the amount of treasures
+- "\o/" : Represents the adventurers
 
 ## :electric_plug: Dependencies
 1. :desktop_computer: Set your Virtual Environment :
@@ -78,3 +79,10 @@ Explanation:
 	```
  	
 	- Result: It will store the result in `results.txt`
+	
+
+## :joystick: More examples
+
+*Old version 1.0:*
+
+![Treasure Quest](img/treasure_quest_old.gif)
